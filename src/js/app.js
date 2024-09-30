@@ -24,11 +24,12 @@ import "../style/index.css";
  */
 function render(variables = {}) {
   console.log("These are the current variables: ", variables); // print on the console
+  // here we ask the logical questions to make decisions on how to build the html
+  // if includeCover==false then we reset the cover code without the <img> tag to make the cover transparent.
+  let cover = `<div class="cover"><img src="${variables.background}" /></div>`;
+  if (variables.includeCover == false) cover = "<div class='cover'></div>";
 
-  let cover = variables.includeCover
-    ? `<div class="cover"><img src="${variables.background}" /></div>`
-    : "<div class='cover'></div>";
-
+  // Generar la lista de redes sociales
   let socialMedia = `
         <ul class="${variables.socialMediaPosition}">
           ${
@@ -54,6 +55,7 @@ function render(variables = {}) {
         </ul>
       `;
 
+  // Resetear el contenido del cuerpo del sitio web con la nueva salida HTML
   document.querySelector("#widget_content").innerHTML = `
         <div class="widget">
           ${cover}

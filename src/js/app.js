@@ -32,37 +32,24 @@ function render(variables = {}) {
   // Generar la lista de redes sociales
   let socialMedia = `
         <ul class="${variables.socialMediaPosition}">
-          ${
-            variables.twitter
-              ? `<li><a href="https://twitter.com/${variables.twitter}"><i class="fab fa-twitter"></i></a></li>`
-              : ""
-          }
-          ${
-            variables.github
-              ? `<li><a href="https://github.com/${variables.github}"><i class="fab fa-github"></i></a></li>`
-              : ""
-          }
-          ${
-            variables.linkedin
-              ? `<li><a href="https://linkedin.com/in/${variables.linkedin}"><i class="fab fa-linkedin"></i></a></li>`
-              : ""
-          }
-          ${
-            variables.instagram
-              ? `<li><a href="https://instagram.com/${variables.instagram}"><i class="fab fa-instagram"></i></a></li>`
-              : ""
-          }
+          <li><a href="https://twitter.com/${variables.twitter ||
+            ""}"><i class="fab fa-twitter"></i></a></li>
+          <li><a href="https://github.com/${variables.github ||
+            ""}"><i class="fab fa-github"></i></a></li>
+          <li><a href="https://linkedin.com/in/${variables.linkedin ||
+            ""}"><i class="fab fa-linkedin"></i></a></li>
+          <li><a href="https://instagram.com/${variables.instagram ||
+            ""}"><i class="fab fa-instagram"></i></a></li>
         </ul>
       `;
 
-  // Resetear el contenido del cuerpo del sitio web con la nueva salida HTML
   document.querySelector("#widget_content").innerHTML = `
         <div class="widget">
           ${cover}
           <img src="${variables.avatarURL}" class="photo" />
-          <h1>${variables.name || ""} ${variables.lastName || ""}</h1>
-          <h2>${variables.role || ""}</h2>
-          <h3>${variables.city || ""}, ${variables.country || ""}</h3>
+          <h1>${variables.name || "Jane"} ${variables.lastName || "Doe"}</h1>
+          <h2>${variables.role || "Web Developer"}</h2>
+          <h3>${variables.city || "Miami"}, ${variables.country || "USA"}</h3>
           ${socialMedia}
         </div>
       `;
@@ -76,13 +63,13 @@ window.onload = function() {
     includeCover: true,
     background: "https://images.unsplash.com/photo-1511974035430-5de47d3b95da",
     avatarURL: "https://randomuser.me/api/portraits/women/42.jpg",
-    socialMediaPosition: "position-left",
+    socialMediaPosition: "right",
     twitter: null,
     github: null,
     linkedin: null,
     instagram: null,
-    name: null,
-    lastName: null,
+    name: "Jane",
+    lastName: "Doe",
     role: null,
     country: null,
     city: null
@@ -101,7 +88,12 @@ window.onload = function() {
           : this.value == "false"
           ? false
           : this.value;
-      render(Object.assign(window.variables, values)); // render again the card with new values
+
+      if (attribute === "socialMediaPosition" && values[attribute] === "") {
+        values[attribute] = "right";
+      }
+
+      render(Object.assign(window.variables, values));
     });
   });
 };
